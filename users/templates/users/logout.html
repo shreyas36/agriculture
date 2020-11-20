@@ -1,0 +1,9 @@
+{% extends "crop/base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="border-top pt-3">
+            <h1>You are logged out </h1>
+            <br>
+            <a class="btn btn-outline-dark" href="{% url 'login' %}">log in again</a>
+    </div>
+{% endblock body %}

@@ -1,0 +1,42 @@
+{% extends "crop/base.html" %} 
+{% block body %}
+	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+	<h1 style="text-align: center;">Production in 2006</h1>
+		<div id="mychart" style='background-color: aliceblue; border-radius: 20px; border: 2px solid #73AD21;";'></div>
+	<br><br>
+	<h1 style="text-align: center;">Production in 2007</h1>
+	<div id="mychart2" style='background-color: aliceblue; border-radius: 20px; border: 2px solid #73AD21;";'></div>
+	<br><br><br><br>
+	<script>
+	var chartdata = {
+		"type":"bar",
+		"scale-x":{
+			"values": {{crops|safe}}
+		},
+		"series":[
+			{
+				"values": {{prod|safe}}
+			}
+		]
+	};
+	var chartdata2= {
+		"type":"bar",
+		"scale-x":{
+			"values": ["Urad","Bajra","other oilseeds","Orange","Cotton(lint)","Turmeric","Maize"]
+		},
+		"series":[
+			{
+				"values": [21000,13200,19780,14500,27040,16215,32558]
+			}
+		]
+	};
+	zingchart.render({
+		id: "mychart",
+		data: chartdata,
+	});
+	zingchart.render({
+		id: "mychart2",
+		data: chartdata2,
+	});
+	</script>
+{% endblock body %}

@@ -1,7 +1,10 @@
 {% extends "crop/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block body %}
-    <div class="content-section">
+<link rel="stylesheet" type="text/css" href="{% static "users/user.css" %}">
+<div>
+    <div class="cform content-section">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -13,7 +16,9 @@
             </div>
         </form>
         <div class="border-top pt-3">
-                Don't have An Account? <a class="btn btn-outline-dark" href="{% url 'register' %}">Sign Up</a>
+            Don't have An Account?
+            <a class="btn btn-outline-dark" href="{% url 'register' %}">Sign Up</a>
         </div>
     </div>
+</div>
 {% endblock body %}

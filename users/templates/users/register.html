@@ -1,19 +1,18 @@
-{% extends "crop/base.html" %}
-{% load crispy_forms_tags %}
-{% block body %}
-    <div class="content-section">
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Sign up here</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Sign Up</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-                Already Have An Account? <a class="btn btn-outline-dark" href="{% url 'login' %}">Sign In</a>
+{% extends "crop/base.html" %} {% load crispy_forms_tags %} {% block body %} {% load static %} <link rel="stylesheet"
+type="text/css" href="{% static "users/user.css" %}">
+<div class="cform content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Sign up here</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Sign Up</button>
         </div>
+    </form>
+    <div class="border-top pt-3">
+        Already Have An Account? <a class="btn btn-outline-dark" href="{% url 'login' %}">Sign In</a>
     </div>
+</div>
 {% endblock body %}

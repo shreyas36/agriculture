@@ -813,7 +813,6 @@ season_choices=[('Kharif     ', 'Kharif     '),
 
 class Crop(models.Model):
 	state = models.CharField(max_length=100,choices=state_choices)
-	district = models.CharField(max_length=200,choices=district_choices)
 	year = models.IntegerField()
 	season = models.CharField(max_length=50,choices=season_choices)
 	crop = models.CharField(max_length=100,choices=crops_choices)
@@ -822,3 +821,11 @@ class Crop(models.Model):
 		
 	def __str__(self):
 		return self.crop
+
+class Rice(models.Model):
+	state = models.CharField(max_length=100,choices=state_choices)
+	year = models.IntegerField()
+	season = models.CharField(max_length=50,choices=season_choices)
+	area = models.IntegerField()
+	production = models.IntegerField()
+	rainfall = models.IntegerField(default=0)

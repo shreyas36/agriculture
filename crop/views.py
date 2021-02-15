@@ -51,10 +51,10 @@ def rice(request):
               'Uttarakhand']
     data = {}
     context_dict = {}
+    context_dict["nstates"] = list(i.replace(" ", "") for i in states)
     for state in states:
         data[state.replace(" ", "")] = list(Rice.objects.filter(
-            state=state).values('year', 'area', 'rainfall', 'production'))[0]
+            state=state).values('year', 'area', 'rainfall', 'production'))
     context_dict["states"] = states
-    context_dict["nstates"] = list(i.replace(" ", "") for i in states)
     context_dict["data"] = json.dumps(data)
     return render(request, 'crop/rice_data.html', context_dict)

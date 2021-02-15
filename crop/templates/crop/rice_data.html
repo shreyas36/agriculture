@@ -1,33 +1,91 @@
 {% extends "crop/base.html" %}
 {% block body %}
 {% load static %}
-
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <h1>Rice data here</h1>
 
 {% for state in nstates %}
-    <div id='{{state}}'></div>
+<h2>{{state}}</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <canvas id="{{state}}"></canvas>
+    </div>
+    <div class="col-lg-6">
+        <canvas id="{{state}}rain"></canvas>
+    </div>
+</div>
+    <!--<div id='{{state}}'></div>-->
 {% endfor %}
-<div id="myChart"></div>
 <script>
-    var data={{data|safe}}
+    var data = {{data|safe}};
     {% for state in nstates %}
-    var java{{state}} = {
-        type:"line",
-        series:[
-            {
-                values:[]
-            }
-        ]
+    var crop{{state}} = []
+    var year{{state}}=[]
+    var rain{{state}}=[]
+    for(i=0;i<data.{{state}}.length;i++){
+        crop{{state}}.push(data.{{state}}[i].production);
+        year{{state}}.push(data.{{ state }}[i].year);
+        rain{{state}}.push(data.{{ state }}[i].rainfall);
     }
-        zingchart.render({
-            id: '{{state}}',
-            data: java{{state}},
-            height: '100%',
-            width: '100%'
+    
+    var ctx{{state}} = document.getElementById('{{state}}').getContext('2d');
+        var chart{{state}} = new Chart(ctx{{state}}, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: year{{state}},
+                datasets: [{
+                    label: 'Crops',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: crop{{state}}
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
         });
-        {% endfor %}
+        var ctxr{{ state }} = document.getElementById('{{state}}rain').getContext('2d');
+            var chartr{{ state }} = new Chart(ctxr{{ state }}, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: year{{ state }},
+                datasets: [{
+                    label: 'Rain',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: rain{{ state }}
+                }]
+            },
+
+                // Configuration options go here
+                options: {}
+        });
+    {% endfor %}
+    // {% for state in nstates %}
+    // var java{{state}} = {
+    //     type:"line",
+    //     series:[
+    //         {
+    //             values:[10,20,20,10]
+    //         }
+    //     ]
+    // };
+    //     zingchart.render({
+    //         id: '{{state}}',
+    //         data: java{{state}},
+    //         height: '100%',
+    //         width: '100%'
+    //     });
+    //     {% endfor %}
 </script>
-<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
 <!--<script src="{% static "/crop/js/rice.js" %}"></script>-->
 {% endblock body %}

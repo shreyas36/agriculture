@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView
 from .models import Crop, Rice
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
+import pandas as pd
 # Create your views here.
 
 
@@ -51,10 +52,13 @@ def rice(request):
               'Uttarakhand']
     data = {}
     context_dict = {}
+    df = pd.DataFrame(list(Rice.objects.all().values(
+        'state', 'year', 'area', 'rainfall', 'production')))
+    df = df.groupby(["state", "year"]).mean().reset_index()
     context_dict["nstates"] = list(i.replace(" ", "") for i in states)
     for state in states:
-        data[state.replace(" ", "")] = list(Rice.objects.filter(
-            state=state).values('year', 'area', 'rainfall', 'production'))
+        data[state.replace(" ", "")] = df[df['state'] ==
+                                          state].to_dict(orient='records')
     context_dict["states"] = states
     context_dict["data"] = json.dumps(data)
     return render(request, 'crop/rice_data.html', context_dict)
